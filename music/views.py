@@ -9,7 +9,9 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Album # for connecting to models.py database schema
 
-from django.template import loader # for importing templates
+# from django.template import loader # for importing templates
+
+from django.shortcuts import render
 
 def index(request):
 
@@ -17,11 +19,14 @@ def index(request):
     # and displaying it to the home page
     all_albums = Album.objects.all()
 
-    template = loader.get_template('music/index.html') # loader will automatically checks the template folder
+    context = {'all_albums': all_albums}  # NOTE: context is a dictionary of Album objects
 
-    context = {'all_albums': all_albums} # NOTE: context is a dictionary of Album objects
+    return render(request, 'music/index.html', context)
 
-    return HttpResponse(template.render(context, request))
+#    template = loader.get_template('music/index.html') # loader will automatically checks the template folder
+
+
+ #   return HttpResponse(template.render(context, request))
 
 
 """
