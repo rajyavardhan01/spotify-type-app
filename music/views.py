@@ -3,9 +3,7 @@ from __future__ import unicode_literals
 
 from .models import Album # for connecting to models.py database schema
 
-from django.shortcuts import render
-
-from django.http import Http404
+from django.shortcuts import render, get_object_or_404
 
 def index(request):
 
@@ -17,9 +15,5 @@ def index(request):
 
 def detail(request, album_id):
 
-    try:
-        album = Album.objects.get(pk=album_id)
-    except Album.DoesNotExist:
-        raise Http404("Album doesnt exist")
-
+    album = get_object_or_404(Album, pk=album_id)
     return render(request, 'music/detail.html', {'album': album})
